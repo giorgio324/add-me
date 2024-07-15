@@ -13,7 +13,7 @@ const UserInfo = ({ user }) => {
   }, {});
 
   return (
-    <Row as='section' className='py-1'>
+    <Row as='section' className='py-2'>
       <Col className='text-center text-uppercase'>
         <h1>
           {userInputs?.firstname} {userInputs?.lastname}
