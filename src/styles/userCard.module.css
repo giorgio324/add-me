@@ -1,0 +1,15 @@
+.userInfoImage {
+  height: 80px;
+  object-fit: cover;
+  transition: transform 0.1s ease-in-out;
+  cursor: pointer;
+}
+.userInfoImage:hover {
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .userInfoImage {
+    height: 225px;
+  }
+}

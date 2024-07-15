@@ -29,12 +29,7 @@ const UserSocialMediaIcons = ({ user }) => {
   return (
     <section className='d-flex justify-content-center px-2 gap-3 gap-md-5'>
       {Object.entries(userInputs).map(([name, url]) => (
-        <SocialMediaIcon
-          key={name}
-          href={url}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
+        <SocialMediaIcon key={name} href={url}>
           {socialMediaIcons[name]}
         </SocialMediaIcon>
       ))}

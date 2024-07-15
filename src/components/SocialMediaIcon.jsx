@@ -1,4 +1,4 @@
-import styles from '../styles/SocialMediaIcon.module.css';
+import styles from '../styles/socialMediaIcon.module.css';
 const SocialMediaIcon = ({ children, href }) => {
   return (
     <a

@@ -3,6 +3,7 @@ import UserImage from './components/UserImage';
 import { Container } from 'react-bootstrap';
 import UserInfo from './components/UserInfo';
 import UserSocialMediaIcons from './components/UserSocialMediaIcons';
+import UserCards from './components/UserCards';
 
 const App = () => {
   const [user, setUser] = useState();
@@ -45,9 +46,12 @@ const App = () => {
 
   return (
     <Container as='main'>
-      <UserImage user={user} />
-      <UserInfo user={user} />
-      <UserSocialMediaIcons user={user} />
+      <section className='my-5'>
+        <UserImage user={user} />
+        <UserInfo user={user} />
+        <UserSocialMediaIcons user={user} />
+        <UserCards user={user} />
+      </section>
     </Container>
   );
 };
