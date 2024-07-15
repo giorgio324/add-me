@@ -1,0 +1,32 @@
+.userImage {
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+}
+
+.userIcon {
+  font-size: 18px;
+}
+
+.userInfoImage {
+  height: 80px;
+  object-fit: cover;
+  transition: transform 0.1s ease-in-out;
+  cursor: pointer;
+}
+.userInfoImage:hover {
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .userImage {
+    width: 250px;
+    height: 250px;
+  }
+  .userIcon {
+    font-size: 28px;
+  }
+  .userInfoImage {
+    height: 225px;
+  }
+}
