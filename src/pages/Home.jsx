@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import UserImage from './components/UserImage';
 import { Container } from 'react-bootstrap';
-import UserInfo from './components/UserInfo';
-import UserSocialMediaIcons from './components/UserSocialMediaIcons';
-import UserCards from './components/UserCards';
+import UserImage from '../components/UserImage';
+import UserInfo from '../components/UserInfo';
+import UserSocialMediaIcons from '../components/UserSocialMediaIcons';
+import UserCards from '../components/UserCards';
 
-const App = () => {
+const Home = () => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,8 +34,6 @@ const App = () => {
     fetchData();
   }, []);
 
-  console.log(user);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -56,4 +54,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;

@@ -16,7 +16,6 @@ const UserSocialMediaIcons = ({ user }) => {
     }
     return acc;
   }, {});
-  console.log(userInputs);
 
   const socialMediaIcons = {
     linkedin: <FaLinkedin />,
