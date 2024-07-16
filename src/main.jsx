@@ -8,14 +8,16 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import Slider from './pages/Slider.jsx';
 import Home from './pages/Home.jsx';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Feature from './pages/Feature.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path='/' element={<Home />}></Route>
-      <Route path='/slider' element={<Slider />}></Route>
+      <Route path='/slider' element={<Feature />}></Route>
     </>
   )
 );

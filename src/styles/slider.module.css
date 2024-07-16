@@ -1,3 +1,14 @@
 .carouselContainer {
-  width: 475px;
+  width: 350px;
+  border-radius: 12px;
+}
+.carouselImage {
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .carouselContainer {
+    width: 475px;
+  }
 }
