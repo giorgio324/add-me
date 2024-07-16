@@ -6,13 +6,17 @@ import fourthImage from '../assets/4.svg';
 import styles from '../styles/slider.module.css';
 const Feature = () => {
   const settings = {
+    customPaging: function () {
+      return <span></span>;
+    },
     dots: true,
+    dotsClass: 'custom-dots',
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    /* autoplay: true,
-    autoplaySpeed: 2000, */
+    autoplay: true,
+    autoplaySpeed: 2000,
     arrows: false,
   };
   return (
