@@ -24,9 +24,9 @@ const Qr = ({ formData, setFormData, index }) => {
   );
 
   return (
-    <div className='d-flex justify-content-center gap-4 flex-wrap'>
+    <div className='d-flex gap-4 flex-wrap'>
       {qrURL ? (
-        <>
+        <div className='d-flex gap-4'>
           <QRCode value={qrURL} icon={iconURL} color={color} type='svg' />
           <ColorInput
             controlId={'qr-color'}
@@ -35,9 +35,16 @@ const Qr = ({ formData, setFormData, index }) => {
             value={color}
             onChange={handleChange}
           />
-        </>
+        </div>
       ) : (
-        <span>Enter URL to display QR code</span>
+        <span
+          className='flex-grow'
+          style={{
+            width: '280px',
+          }}
+        >
+          Enter URL to display QR code
+        </span>
       )}
 
       <div className='w-auto d-flex flex-grow-1 gap-4 flex-wrap'>
