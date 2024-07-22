@@ -4,18 +4,28 @@ import { useState } from 'react';
 import { Button, Image } from 'react-bootstrap';
 import { storage } from '../firebase/config';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import styles from '../styles/easyCrop.module.css';
+import { CiEdit } from 'react-icons/ci';
+import { Slider } from 'antd';
 
-const EasyCrop = ({ fetchedImageURL }) => {
-  const [imageSrc, setImageSrc] = useState(null);
+const EasyCrop = ({ profileImage, setProfileImage, imageSrc, setImageSrc }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [croppedImage, setCroppedImage] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const cancelCrop = () => {
+    setImageSrc(null);
+    setZoom(1);
+    setRotation(0);
+    setCrop({ x: 0, y: 0 });
+    setCroppedAreaPixels(null);
+    setError(null);
   };
 
   const saveCroppedImage = async () => {
@@ -27,12 +37,11 @@ const EasyCrop = ({ fetchedImageURL }) => {
         rotation
       );
 
-      // Create a file from the blob
+      // Create a file from the blob to upload it in firebase
       const file = new File([croppedImageBlob.file], 'croppedImage.png', {
         type: 'image/png',
       });
 
-      // Create a reference to the storage location
       const storageRef = ref(
         storage,
         `testUser/croppedImage_${Date.now()}.png`
@@ -41,9 +50,10 @@ const EasyCrop = ({ fetchedImageURL }) => {
       // Upload the file to Firebase Storage
       await uploadBytes(storageRef, file);
 
-      // Get the download URL
+      // fetch uploaded image and update state
       const newImageURL = await getDownloadURL(storageRef);
-      setCroppedImage(newImageURL);
+      setProfileImage(newImageURL);
+      cancelCrop();
     } catch (e) {
       console.error('Error saving cropped image:', e);
       setError('Failed to save the cropped image. Please try again.');
@@ -74,6 +84,7 @@ const EasyCrop = ({ fetchedImageURL }) => {
       setImageSrc(e.target.result);
     };
   };
+
   return (
     <div className='text-black'>
       {error}
@@ -83,9 +94,9 @@ const EasyCrop = ({ fetchedImageURL }) => {
             style={{
               position: 'relative',
               width: '100%',
-              height: 400,
               background: '#fff',
             }}
+            className={`${styles.cropWrapper}`}
           >
             <Cropper
               image={imageSrc}
@@ -100,25 +111,60 @@ const EasyCrop = ({ fetchedImageURL }) => {
               cropShape='round'
             />
           </div>
-          <Button onClick={saveCroppedImage} color='primary'>
-            Edit the image and save to firebase
-          </Button>
-          {croppedImage && (
-            <div>
-              <img src={croppedImage} className='img-fluid' alt='' />
+          <div>
+            <div className='d-flex justify-content-center align-items-center gap-3'>
+              <CiEdit />
+              <Slider
+                min={1}
+                max={3}
+                step={0.2}
+                value={zoom}
+                onChange={(value) => setZoom(value)}
+                style={{ flexGrow: '1' }}
+              />
             </div>
-          )}
+            <div className='d-flex justify-content-center align-items-center gap-3'>
+              <CiEdit />
+              <Slider
+                min={0}
+                max={360}
+                step={1}
+                value={rotation}
+                onChange={(value) => setRotation(value)}
+                style={{ flexGrow: '1' }}
+              />
+            </div>
+          </div>
+          <div className={`mt-4 ${styles.buttonContainer}`}>
+            <Button onClick={saveCroppedImage} color='primary'>
+              Crop Image
+            </Button>
+            <Button onClick={cancelCrop} variant='danger'>
+              Cancel
+            </Button>
+          </div>
         </>
       ) : (
-        <label className='d-flex justify-content-center'>
-          <Image src={fetchedImageURL} roundedCircle className='img-fluid' />
-          <input
-            type='file'
-            onChange={onFileChange}
-            accept='image/*'
-            style={{ display: 'none' }}
-          />
-        </label>
+        <div className='d-flex flex-column justify-content-center align-items-center'>
+          <label className='position-relative'>
+            {profileImage && (
+              <>
+                <Image
+                  src={profileImage}
+                  roundedCircle
+                  className={`${styles.profileImage}`}
+                />
+                <CiEdit className={`${styles.profileImageIcon}`} />
+              </>
+            )}
+            <input
+              type='file'
+              onChange={onFileChange}
+              accept='image/*'
+              style={{ display: 'none' }}
+            />
+          </label>
+        </div>
       )}
     </div>
   );

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import EasyCrop from './EasyCrop';
-import { Button, Modal } from 'react-bootstrap';
-
+import EasyCrop from '../components/EasyCrop';
+import { Button, Form, Modal } from 'react-bootstrap';
+import defaultUserIcon from '../assets/user.png';
 const Profile = () => {
   const [show, setShow] = useState(false);
-  const [imageURL, setImageURL] = useState(
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcQ5aULg3WcJm0QJMJ-olk9HagB3s5cD1sMg&s'
-  );
+  const [profileImage, setProfileImage] = useState(defaultUserIcon);
+  /* imageSrc is lifet up state */
+  const [imageSrc, setImageSrc] = useState(null);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -17,18 +17,40 @@ const Profile = () => {
           Edit Profile
         </Button>
       </div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal size='xl' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title className='text-black'>Edit Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EasyCrop fetchedImageURL={imageURL} />
+          <EasyCrop
+            imageSrc={imageSrc}
+            setImageSrc={setImageSrc}
+            profileImage={profileImage}
+            setProfileImage={setProfileImage}
+          />
+          {!imageSrc && (
+            <>
+              <Form.Group
+                className='mb-3'
+                controlId='formname'
+                style={{ flexGrow: '1', width: '100%' }}
+              >
+                <Form.Label>name</Form.Label>
+                <Form.Control type='name' placeholder='test' />
+                <Form.Text className='text-muted'>testing for the ui</Form.Text>
+              </Form.Group>
+              <Form.Group
+                className='mb-3'
+                controlId='formBasicEmail'
+                style={{ flexGrow: '1', width: '100%' }}
+              >
+                <Form.Label>lastname</Form.Label>
+                <Form.Control type='email' placeholder='test' />
+                <Form.Text className='text-muted'>testing for the ui</Form.Text>
+              </Form.Group>
+            </>
+          )}
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

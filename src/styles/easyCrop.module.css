@@ -1,0 +1,60 @@
+.cropWrapper {
+  height: 400px;
+  position: relative;
+  width: 100%;
+  background-color: black;
+}
+.profileImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.profileImageIcon {
+  position: absolute;
+  background-color: teal;
+  border-radius: 50%;
+  padding: 6px;
+  z-index: 10;
+  font-size: 30px;
+  bottom: 5px;
+  right: 15px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  row-gap: 12px;
+}
+@media (min-width: 768px) {
+  .cropWrapper {
+    height: 600px;
+  }
+
+  .profileImage {
+    width: 250px;
+    height: 250px;
+  }
+  .profileImageIcon {
+    font-size: 42px;
+    bottom: 15px;
+    right: 25px;
+  }
+}
+
+@media (min-width: 992px) {
+  .cropWrapper {
+    height: 800px;
+  }
+
+  .profileImage {
+    width: 300px;
+    height: 300px;
+  }
+  .profileImageIcon {
+    font-size: 45px;
+    bottom: 18px;
+    right: 28px;
+  }
+}
