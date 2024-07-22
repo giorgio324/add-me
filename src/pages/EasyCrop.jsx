@@ -10,6 +10,7 @@ const EasyCrop = ({ fetchedImageURL }) => {
   const [rotation, setRotation] = useState(0);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
+  const [error, setError] = useState('');
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -31,17 +32,33 @@ const EasyCrop = ({ fetchedImageURL }) => {
 
   const onFileChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = (e) => {
-        setImageSrc(e.target.result);
-      };
+
+    if (!file) {
+      setError('Please select a file.');
+      return;
     }
+
+    const maxSizeInBytes = 2 * 1024 * 1024; // 2 MB
+    if (file.size > maxSizeInBytes) {
+      setError('File size must not exceed 2 MB.');
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select an image file.');
+      return;
+    }
+
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = (e) => {
+      setImageSrc(e.target.result);
+    };
   };
 
   return (
-    <div>
+    <div className='text-black'>
+      {error}
       {imageSrc ? (
         <>
           <div
