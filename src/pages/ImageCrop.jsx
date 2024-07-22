@@ -11,19 +11,14 @@ export const ImageCrop = () => {
   return (
     <>
       <Button variant='primary' onClick={handleShow}>
-        Launch demo modal
+        edit profile
       </Button>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>User modal</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EasyCrop
-            fetchedImageURL={
-              'https://img.huffingtonpost.com/asset/5ab4d4ac2000007d06eb2c56.jpeg?cache=sih0jwle4e&ops=1910_1000'
-            }
-          />
+          <EasyCrop />
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>

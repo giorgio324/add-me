@@ -18,31 +18,42 @@ const EasyCrop = ({ fetchedImageURL }) => {
   const showCroppedImage = async () => {
     try {
       const croppedImage = await getCroppedImg(
-        dogImg,
+        imageSrc,
         croppedAreaPixels,
         rotation
       );
-      console.log('donee', { croppedImage });
       setCroppedImage(croppedImage);
+      console.log(croppedImage);
     } catch (e) {
       console.error(e);
     }
   };
 
+  const onFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = (e) => {
+        setImageSrc(e.target.result);
+      };
+    }
+  };
+
   return (
     <div>
-      {fetchedImageURL && (
+      {imageSrc ? (
         <>
           <div
             style={{
               position: 'relative',
               width: '100%',
               height: 400,
-              background: '#333',
+              background: '#fff',
             }}
           >
             <Cropper
-              image={fetchedImageURL}
+              image={imageSrc}
               crop={crop}
               zoom={zoom}
               rotation={rotation}
@@ -51,12 +62,20 @@ const EasyCrop = ({ fetchedImageURL }) => {
               onRotationChange={setRotation}
               onCropChange={setCrop}
               onCropComplete={onCropComplete}
+              cropShape='round'
             />
           </div>
           <Button onClick={showCroppedImage} color='primary'>
-            Show Result
+            Edit the image and save to firebase
           </Button>
+          {croppedImage && (
+            <div>
+              <img src={croppedImage} className='img-fluid' alt='' />
+            </div>
+          )}
         </>
+      ) : (
+        <input type='file' onChange={onFileChange} accept='image/*' />
       )}
     </div>
   );
