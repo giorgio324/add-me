@@ -2,23 +2,27 @@ import { useState } from 'react';
 import EasyCrop from './EasyCrop';
 import { Button, Modal } from 'react-bootstrap';
 
-export const ImageCrop = () => {
+const Profile = () => {
   const [show, setShow] = useState(false);
-
+  const [imageURL, setImageURL] = useState(
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcQ5aULg3WcJm0QJMJ-olk9HagB3s5cD1sMg&s'
+  );
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   return (
     <>
-      <Button variant='primary' onClick={handleShow}>
-        edit profile
-      </Button>
+      <div className='container d-flex justify-content-center align-items-center mt-5'>
+        <Button variant='primary' onClick={handleShow}>
+          Edit Profile
+        </Button>
+      </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>User modal</Modal.Title>
+          <Modal.Title className='text-black'>Edit Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EasyCrop />
+          <EasyCrop fetchedImageURL={imageURL} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
@@ -29,3 +33,5 @@ export const ImageCrop = () => {
     </>
   );
 };
+
+export default Profile;

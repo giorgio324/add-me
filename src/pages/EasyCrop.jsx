@@ -1,12 +1,12 @@
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../utils/cropImage';
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Image } from 'react-bootstrap';
 import { storage } from '../firebase/config';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const EasyCrop = ({ fetchedImageURL }) => {
-  const [imageSrc, setImageSrc] = useState(fetchedImageURL || null);
+  const [imageSrc, setImageSrc] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
@@ -57,7 +57,7 @@ const EasyCrop = ({ fetchedImageURL }) => {
       return;
     }
 
-    const maxSizeInBytes = 2 * 1024 * 1024; // 2 MB
+    const maxSizeInBytes = 4 * 1024 * 1024; // 2 MB
     if (file.size > maxSizeInBytes) {
       setError('File size must not exceed 2 MB.');
       return;
@@ -74,7 +74,6 @@ const EasyCrop = ({ fetchedImageURL }) => {
       setImageSrc(e.target.result);
     };
   };
-
   return (
     <div className='text-black'>
       {error}
@@ -111,7 +110,15 @@ const EasyCrop = ({ fetchedImageURL }) => {
           )}
         </>
       ) : (
-        <input type='file' onChange={onFileChange} accept='image/*' />
+        <label className='d-flex justify-content-center'>
+          <Image src={fetchedImageURL} roundedCircle className='img-fluid' />
+          <input
+            type='file'
+            onChange={onFileChange}
+            accept='image/*'
+            style={{ display: 'none' }}
+          />
+        </label>
       )}
     </div>
   );

@@ -13,8 +13,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Feature from './pages/Feature.jsx';
 import QrPage from './pages/QrPage.jsx';
-import Image from './pages/Image.jsx';
-import { ImageCrop } from './pages/ImageCrop.jsx';
+import Profile from './pages/Profile.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,8 +21,7 @@ const router = createBrowserRouter(
       <Route path='/' element={<Home />}></Route>
       <Route path='/slider' element={<Feature />}></Route>
       <Route path='/qr' element={<QrPage />}></Route>
-      <Route path='/image' element={<Image />}></Route>
-      <Route path='/image2' element={<ImageCrop />}></Route>
+      <Route path='/profile' element={<Profile />}></Route>
     </>
   )
 );
