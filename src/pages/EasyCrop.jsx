@@ -2,6 +2,8 @@ import Cropper from 'react-easy-crop';
 import getCroppedImg from '../utils/cropImage';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { storage } from '../firebase/config';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const EasyCrop = ({ fetchedImageURL }) => {
   const [imageSrc, setImageSrc] = useState(fetchedImageURL || null);
@@ -16,23 +18,40 @@ const EasyCrop = ({ fetchedImageURL }) => {
     setCroppedAreaPixels(croppedAreaPixels);
   };
 
-  const showCroppedImage = async () => {
+  const saveCroppedImage = async () => {
     try {
-      const croppedImage = await getCroppedImg(
+      // Get the cropped image as a blob
+      const croppedImageBlob = await getCroppedImg(
         imageSrc,
         croppedAreaPixels,
         rotation
       );
-      setCroppedImage(croppedImage);
-      console.log(croppedImage);
+
+      // Create a file from the blob
+      const file = new File([croppedImageBlob.file], 'croppedImage.png', {
+        type: 'image/png',
+      });
+
+      // Create a reference to the storage location
+      const storageRef = ref(
+        storage,
+        `testUser/croppedImage_${Date.now()}.png`
+      );
+
+      // Upload the file to Firebase Storage
+      await uploadBytes(storageRef, file);
+
+      // Get the download URL
+      const newImageURL = await getDownloadURL(storageRef);
+      setCroppedImage(newImageURL);
     } catch (e) {
-      console.error(e);
+      console.error('Error saving cropped image:', e);
+      setError('Failed to save the cropped image. Please try again.');
     }
   };
 
   const onFileChange = async (e) => {
     const file = e.target.files[0];
-
     if (!file) {
       setError('Please select a file.');
       return;
@@ -82,7 +101,7 @@ const EasyCrop = ({ fetchedImageURL }) => {
               cropShape='round'
             />
           </div>
-          <Button onClick={showCroppedImage} color='primary'>
+          <Button onClick={saveCroppedImage} color='primary'>
             Edit the image and save to firebase
           </Button>
           {croppedImage && (

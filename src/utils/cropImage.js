@@ -90,14 +90,13 @@ export default async function getCroppedImg(
   );
 
   // As Base64 string
-
-  return croppedCanvas.toDataURL('image/jpeg');
+  // return croppedCanvas.toDataURL('image/jpeg');
 
   // As a blob
-  /* return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     croppedCanvas.toBlob((file) => {
-      file.name="cropped.jpeg"
-      resolve({file,url:URL.createObjectURL(file)});
+      file.name = 'cropped.jpeg';
+      resolve({ file, url: URL.createObjectURL(file) });
     }, 'image/jpeg');
-  }); */
+  });
 }
